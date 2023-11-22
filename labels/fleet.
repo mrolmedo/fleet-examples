@@ -1,0 +1,9 @@
+defaultNamespace: ns-test2
+namespaceLabels:
+  foo: barLabel
+  pod-security.kubernetes.io/enforce: restricted
+  pod-security.kubernetes.io/enforce-version: latest
+namespaceAnnotations:
+  foo: barAnnotation
+kustomize:
+  dir: overlays
