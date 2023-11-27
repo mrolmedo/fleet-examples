@@ -1,2 +1,2 @@
 #namespace: fleet-mc-helm-example-dev
-#defaultNamespace: newone
+defaultNamespace: newone
