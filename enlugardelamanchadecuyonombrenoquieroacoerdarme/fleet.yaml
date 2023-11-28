@@ -1,4 +1,4 @@
-#namespace: fleet-mc-helm-example-dev
+####THIS NAMESPACE DOES NOET EXIST IN THE DS. IT IS CREATED BY FLEET
 defaultNamespace: test02
 namespaceLabels:
   foo: barLabel
