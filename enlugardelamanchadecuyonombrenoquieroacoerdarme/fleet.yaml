@@ -1,6 +1,2 @@
 #namespace: fleet-mc-helm-example-dev
 defaultNamespace: test03
-namespaceLabels:
-  foo: barLabel
-  pod-security.kubernetes.io/enforce: restricted
-  pod-security.kubernetes.io/enforce-version: latest
