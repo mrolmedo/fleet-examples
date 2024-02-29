@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: redis
+      app: redis12
       role: master
       tier: backend
   replicas: 1
