@@ -1,4 +1,4 @@
-namespace: fleet-mc-helm-example-dev
+namespace: test-test
 targetCustomizations:
 - name: dev
   helm:
