@@ -2,7 +2,7 @@ kind: GitRepo
 apiVersion: fleet.cattle.io/v1alpha1
 metadata:
   name: multigitrepo-frontend
-  namespace: fleet-local
+  namespace: fleet-default
 spec:
   repo: https://github.com/0xavi0/fleet-examples
   branch: multi-gitrepo
