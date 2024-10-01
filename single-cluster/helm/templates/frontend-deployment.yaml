@@ -13,7 +13,7 @@ spec:
       labels:
         app: guestbook
         tier: frontend
-        clustername: {{ .Values.clustername }}
+        clustername: {{ .Values.type }}
     spec:
       containers:
       - name: php-redis
