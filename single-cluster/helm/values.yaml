@@ -1,4 +1,4 @@
 replication: true
 replicas: 1
 serviceType: NodePort
-clustername: clusteris.${ .ClusterValues.generated.cluster_metadata.clustername }
+type: clusteris.${ .ClusterValues.label.type }
