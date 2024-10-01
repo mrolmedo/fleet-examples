@@ -1,4 +1,4 @@
 replication: true
 replicas: 1
 serviceType: NodePort
-type: "clusteris-${ .ClusterValues.label.type }"
+type: ${ .ClusterValues.label.type }
