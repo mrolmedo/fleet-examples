@@ -2,3 +2,4 @@ replication: true
 replicas: 1
 serviceType: NodePort
 type: '${ .ClusterValues.label.type }'
+cport: ${ .ClusterValues.port.cport }
