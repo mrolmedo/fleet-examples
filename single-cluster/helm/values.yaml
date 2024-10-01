@@ -1,3 +1,4 @@
 replication: true
 replicas: 1
 serviceType: NodePort
+clustername: ${ .ClusterValues.generated.cluster_metadata.clustername }
