@@ -1,5 +1,5 @@
 replication: true
 replicas: 1
 serviceType: NodePort
-type: ${ .ClusterValues.label.type | toJson }
+type: ${ .ClusterValues.label.type }
 cport: 80
