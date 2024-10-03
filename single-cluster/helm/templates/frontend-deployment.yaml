@@ -12,8 +12,11 @@ spec:
     metadata:
       labels:
         app: guestbook
+        {{- with .Values.clusterValues }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         tier: frontend
-        clustername: {{ .Values.type }}
+        
     spec:
       containers:
       - name: php-redis
