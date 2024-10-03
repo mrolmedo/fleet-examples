@@ -13,6 +13,7 @@ spec:
       labels:
         app: guestbook
         {{- with .Values.type }}
+        {{- end }}
         tier: frontend
         
     spec:
