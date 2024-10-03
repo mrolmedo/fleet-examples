@@ -7,13 +7,14 @@ spec:
     matchLabels:
       app: guestbook
       tier: frontend
+      type: {{ .Values.type }}
   replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
-        app: guestbook-{{ .Values.type | toJson }}
+        app: guestbook
         tier: frontend
-        
+        type: {{ .Values.type }}
     spec:
       containers:
       - name: php-redis
