@@ -11,9 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        app: guestbook
-        {{- with .Values.type }}
-        {{- end }}
+        app: guestbook-{{ .Values.type | toJson }}
         tier: frontend
         
     spec:
