@@ -13,8 +13,6 @@ spec:
       labels:
         app: guestbook
         {{- with .Values.type }}
-        #{{- toYaml . | nindent 8 }}
-        #{{- end }}
         tier: frontend
         
     spec:
