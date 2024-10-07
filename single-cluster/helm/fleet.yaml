@@ -28,6 +28,10 @@ helm:
   timeoutSeconds: 0
   valueFromEnv:
       type: ${ .ClusterValues.size | upper | quote }
+      replication: true
+      replicas: 1
+      serviceType: NodePort
+      cport: 80
   # Custom values that will be passed as values.yaml to the installation
   valuesFiles:
-  - values.yaml
+  #- values.yaml
