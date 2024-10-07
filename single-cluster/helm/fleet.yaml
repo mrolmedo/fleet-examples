@@ -27,7 +27,7 @@ helm:
   # is less that or equal to zero, we will not wait in Helm
   timeoutSeconds: 0
   valueFromEnv:
-      type: ${ .ClusterValues.size | upper | quote }
+      #type: ${ .ClusterValues.size | upper | quote }
       replication: true
       replicas: 1
       serviceType: NodePort
