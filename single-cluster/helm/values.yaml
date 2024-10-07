@@ -2,4 +2,4 @@ replication: true
 replicas: 1
 serviceType: NodePort
 cport: 80
-type: test-${ get .ClusterValues.type}
+#type: test-${ get .ClusterValues.type}
