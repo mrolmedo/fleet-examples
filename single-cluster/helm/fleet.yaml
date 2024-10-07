@@ -22,7 +22,6 @@ helm:
 
   # Force recreate resource that can not be updated
   force: false
-  clusterValues: ${ .ClusterValues | toJson }
   #"${ .ClusterLabels.ENV }": ${ .ClusterValues.som | upper | quote }
   # How long for helm to wait for the release to be active. If the value
   # is less that or equal to zero, we will not wait in Helm
