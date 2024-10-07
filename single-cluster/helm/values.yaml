@@ -1,5 +1,4 @@
 replication: true
 replicas: 1
 serviceType: NodePort
-type: test-${ .ClusterValues.label.type}
 cport: 80
