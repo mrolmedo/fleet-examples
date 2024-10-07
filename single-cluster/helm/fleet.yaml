@@ -27,7 +27,7 @@ helm:
   # is less that or equal to zero, we will not wait in Helm
   timeoutSeconds: 0
   valueFromEnv:
-      "${ .ClusterLabels.ENV }": ${ .ClusterValues.someValue | upper | quote }
+      "${ .ClusterLabels.ENV }": ${ .ClusterValues.size | upper | quote }
   # Custom values that will be passed as values.yaml to the installation
   valuesFiles:
   - values.yaml
