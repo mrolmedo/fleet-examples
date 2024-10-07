@@ -27,7 +27,8 @@ helm:
   # How long for helm to wait for the release to be active. If the value
   # is less that or equal to zero, we will not wait in Helm
   timeoutSeconds: 0
-
+  valueFromEnv:
+      "${ .ClusterLabels.ENV }": ${ .ClusterValues.someValue | upper | quote }
   # Custom values that will be passed as values.yaml to the installation
   valuesFiles:
   - values.yaml
