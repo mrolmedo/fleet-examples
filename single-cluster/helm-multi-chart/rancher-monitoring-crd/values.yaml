@@ -1,1 +1,1 @@
-podSecurityPolicy: 'false'
+podSecurityPolicy.enable: 'false'
