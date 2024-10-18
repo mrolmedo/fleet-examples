@@ -1,7 +1,8 @@
+```
 kind: GitRepo
 apiVersion: fleet.cattle.io/v1alpha1
 metadata:
-  name: helm
+  name: hello
   namespace: fleet-default
 spec:
   repo: https://github.com/mrolmedo/fleet-examples.git
@@ -9,3 +10,4 @@ spec:
   - single-cluster/helm
   targets:
     - clusterName: clustername
+```
