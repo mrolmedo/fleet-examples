@@ -1,4 +1,4 @@
-namespace: fleet-mc-helm-example
+namespace: testmulti
 targetCustomizations:
 - name: dev
   helm:
@@ -15,12 +15,3 @@ targetCustomizations:
   clusterSelector:
     matchLabels:
       env: test
-
-- name: prod
-  helm:
-    values:
-      serviceType: LoadBalancer
-      replicas: 3
-  clusterSelector:
-    matchLabels:
-      env: prod
