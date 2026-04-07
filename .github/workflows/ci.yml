@@ -35,34 +35,66 @@ jobs:
           fi
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
       -
+        name: Cache k3d CLI
+        id: cache-k3d
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: /home/runner/.local/bin/k3d
+          key: ${{ runner.os }}-k3d-${{ hashFiles('.github/scripts/install-k3d.sh') }}
+          restore-keys: |
+            ${{ runner.os }}-k3d-
+      -
+        name: Install k3d
+        run: |
+          if [ "${{ steps.cache-k3d.outputs.cache-hit }}" != "true" ]; then
+            bash .github/scripts/install-k3d.sh
+          else
+            echo "Using cached k3d CLI"
+            chmod +x ~/.local/bin/k3d
+          fi
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      -
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         id: fleet-cli-cache
         with:
-          path: /home/runner/.local/bin
+          path: /home/runner/.local/bin/fleet
           key: ${{ runner.os }}-fleet-cli-${{ steps.resolve-version.outputs.version }}
       -
         name: Download CLI
-        if: steps.fleet-cli-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p /home/runner/.local/bin
-          wget -nv "https://github.com/rancher/fleet/releases/download/${{ steps.resolve-version.outputs.version }}/fleet-linux-amd64"
-          mv fleet-linux-amd64 /home/runner/.local/bin/fleet
-          chmod +x /home/runner/.local/bin/fleet
+          if [ "${{ steps.fleet-cli-cache.outputs.cache-hit }}" != "true" ]; then
+            FLEET_VER="${{ steps.resolve-version.outputs.version }}"
+            FLEET_VER_TRIM="${FLEET_VER#v}"
+            curl --silent --fail --location \
+              "https://github.com/rancher/fleet/releases/download/${FLEET_VER}/fleet_${FLEET_VER_TRIM}_checksums.txt" \
+              -o /tmp/fleet_checksums.txt
+            curl --silent --fail --location \
+              "https://github.com/rancher/fleet/releases/download/${FLEET_VER}/fleet-linux-amd64" \
+              -o /tmp/fleet-linux-amd64
+            (cd /tmp && grep "  fleet-linux-amd64$" fleet_checksums.txt | sha256sum --check --strict -)
+            install -m 0755 /tmp/fleet-linux-amd64 /home/runner/.local/bin/fleet
+          else
+            echo "Using cached fleet CLI"
+            chmod +x /home/runner/.local/bin/fleet
+          fi
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       -
         name: Set up k3d cluster
         run: |
-          # Install k3d
-          curl --silent --fail https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=v5.8.3 bash
           # Create a minimal cluster (no load balancer needed)
           k3d cluster create fleet-test --no-lb --wait --timeout 120s
           k3d kubeconfig merge fleet-test --kubeconfig-merge-default
 
           # Install Fleet CRDs for the exact CLI version under test so that
           # `kubectl apply` and `fleet target` can use the Cluster CRD.
+          # Note: fleet does not publish checksums for Helm chart tarballs.
           FLEET_VER="${{ steps.resolve-version.outputs.version }}"
-          curl -sL "https://github.com/rancher/fleet/releases/download/${FLEET_VER}/fleet-crd-${FLEET_VER#v}.tgz" \
-            | tar -xz -O fleet-crd/templates/crds.yaml \
-            | kubectl apply -f -
+          FLEET_VER_TRIM="${FLEET_VER#v}"
+          curl --silent --fail --location \
+            "https://github.com/rancher/fleet/releases/download/${FLEET_VER}/fleet-crd-${FLEET_VER_TRIM}.tgz" \
+            -o /tmp/fleet-crd.tgz
+          tar -xz -O -f /tmp/fleet-crd.tgz fleet-crd/templates/crds.yaml | kubectl apply -f -
 
           # Create namespaces and minimal cluster objects for targeting
           kubectl create namespace fleet-local
